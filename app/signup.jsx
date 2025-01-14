@@ -9,6 +9,7 @@ import { useRouter } from 'expo-router'
 import { hp, wp } from '../helpers/common'
 import Input from '../components/Input'
 import Button from '../components/Button'
+import {supabase} from '../lib/supabase'
 
 const Signup = () => {
 
@@ -23,7 +24,27 @@ const Signup = () => {
       Alert.alert('Signup', 'Please enter your email and password');
       return;
     }
-    // good to go
+
+    let name = nameRef.current.trim();
+    let email = emailRef.current.trim();
+    let password = passwordRef.current.trim();
+
+    setLoading(true);
+    const { data:{session}, error:{error} } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
+
+    setLoading(false);
+
+    console.log('session', session);
+    console.log('error', error);
+
+    if (error) {
+      Alert.alert('Signup Error', error.message);
+      return;
+    }
+
   }
 
   return (
@@ -49,6 +70,7 @@ const Signup = () => {
           <Input
             icon={<Icon name='mail' size={26} strokeWidth={1.6} />}
             placeholder='Enter you email'
+            autoCapitalize="none"
             onChangeText={value => emailRef.current = value}
           />
           <Input
