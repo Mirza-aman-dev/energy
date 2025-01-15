@@ -9,7 +9,7 @@ import { useRouter } from 'expo-router'
 import { hp, wp } from '../helpers/common'
 import Input from '../components/Input'
 import Button from '../components/Button'
-import {supabase} from '../lib/supabase'
+import { supabase } from '../lib/supabase'
 
 const Signup = () => {
 
@@ -19,33 +19,51 @@ const Signup = () => {
   const passwordRef = useRef("");
   const [loading, setLoading] = useState(false);
 
+  const ssgn = async () => {
+    try {
+      let name = nameRef.current.trim();
+      let email = emailRef.current.trim();
+      let password = passwordRef.current.trim();
+  
+      const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+          data: {
+            name,
+          },
+        },
+      });
+  
+      if (error) {
+        throw error; // Let the error be caught in the catch block
+      }
+  
+      return data; // Return the data if signup is successful
+    } catch (err) {
+      console.error("Signup Error:", err.message);
+      Alert.alert("Signup Error", err.message);
+      throw err; // Re-throw the error so it can be handled in onSubmit
+    }
+  };
+
   const onSubmit = async () => {
     if (!emailRef.current || !passwordRef.current || !nameRef.current) {
-      Alert.alert('Signup', 'Please enter your email and password');
+      Alert.alert("Signup", "Please enter your name, email, and password");
       return;
     }
-
-    let name = nameRef.current.trim();
-    let email = emailRef.current.trim();
-    let password = passwordRef.current.trim();
-
+  
     setLoading(true);
-    const { data:{session}, error:{error} } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    });
-
-    setLoading(false);
-
-    console.log('session', session);
-    console.log('error', error);
-
-    if (error) {
-      Alert.alert('Signup Error', error.message);
-      return;
+  
+    try {
+      const data = await ssgn();
+      console.log("Signup Successful:", data);
+    } catch (error) {
+      // Error is already handled in ssgn
+    } finally {
+      setLoading(false); // Ensure the loader is stopped in all cases
     }
-
-  }
+  };
 
   return (
     <ScreenWrapper bg='white'>
