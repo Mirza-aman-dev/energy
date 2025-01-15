@@ -9,6 +9,7 @@ import { useRouter } from 'expo-router'
 import { hp, wp } from '../helpers/common'
 import Input from '../components/Input'
 import Button from '../components/Button'
+import { supabase } from '../lib/supabase'
 
 const Login = () => {
 
@@ -17,12 +18,28 @@ const Login = () => {
     const passwordRef = useRef("");
     const [loading, setLoading] = useState(false);
 
-    const onSubmit = async() => {
-        if(!emailRef.current || !passwordRef.current){
-            Alert.alert('Login','Please enter your email and password');
+    const onSubmit = async () => {
+        if (!emailRef.current || !passwordRef.current) {
+            Alert.alert('Login', 'Please enter your email and password');
             return;
         }
-        // good to go
+
+        let email = emailRef.current.trim();
+        let password = passwordRef.current.trim();
+
+        setLoading(true);
+
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+        setLoading(false);
+
+        console.log('Login Error:', error);
+
+        if (error) {
+            Alert.alert('Login Error', error.message);
+            return;
+        }
+
     }
 
     return (
@@ -43,6 +60,7 @@ const Login = () => {
                     <Input
                         icon={<Icon name='mail' size={26} strokeWidth={1.6} />}
                         placeholder='Enter you email'
+                        autoCapitalize="none"
                         onChangeText={value => emailRef.current = value}
                     />
                     <Input
@@ -55,15 +73,15 @@ const Login = () => {
                         Forgot password?
                     </Text>
                     {/* button */}
-                    <Button title='Login' loading={loading} onpress={onSubmit}/>
+                    <Button title='Login' loading={loading} onpress={onSubmit} />
                 </View>
                 {/* footer */}
                 <View style={styles.footer}>
                     <Text style={styles.footerText}>
                         Don't have an account?
                     </Text>
-                    <Pressable onPress={()=>router.push('signup')} >
-                        <Text style={[styles.footerText,{color:theme.colors.primaryDark,fontWeight:theme.fonts.semibold}]}>Signup</Text>
+                    <Pressable onPress={() => router.push('signup')} >
+                        <Text style={[styles.footerText, { color: theme.colors.primaryDark, fontWeight: theme.fonts.semibold }]}>Signup</Text>
                     </Pressable>
                 </View>
             </View>
