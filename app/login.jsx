@@ -1,4 +1,4 @@
-import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useRef, useState } from 'react'
 import ScreenWrapper from '../components/ScreenWrapper'
 import Icon from '../assets/icons'
@@ -45,46 +45,48 @@ const Login = () => {
     return (
         <ScreenWrapper bg='white'>
             <StatusBar style='dark' />
-            <View style={styles.container}>
-                <BackButton router={router} />
+            <ScrollView>
+                <View style={styles.container}>
+                    <BackButton router={router} />
 
-                {/* welcome text */}
-                <View>
-                    <Text style={styles.welcomeText}>Hey,</Text>
-                    <Text style={styles.welcomeText}>Welcome Back</Text>
-                </View>
+                    {/* welcome text */}
+                    <View>
+                        <Text style={styles.welcomeText}>Hey,</Text>
+                        <Text style={styles.welcomeText}>Welcome Back</Text>
+                    </View>
 
-                {/* form */}
-                <View style={styles.form}>
-                    <Text style={{ fontSize: hp(1.5), color: theme.colors.text }}>Please login to continue</Text>
-                    <Input
-                        icon={<Icon name='mail' size={26} strokeWidth={1.6} />}
-                        placeholder='Enter you email'
-                        autoCapitalize="none"
-                        onChangeText={value => emailRef.current = value}
-                    />
-                    <Input
-                        icon={<Icon name='lock' size={26} strokeWidth={1.6} />}
-                        placeholder='Enter you password'
-                        secureTextEntry
-                        onChangeText={value => passwordRef.current = value}
-                    />
-                    <Text style={styles.forgotPassword}>
-                        Forgot password?
-                    </Text>
-                    {/* button */}
-                    <Button title='Login' loading={loading} onpress={onSubmit} />
+                    {/* form */}
+                    <View style={styles.form}>
+                        <Text style={{ fontSize: hp(1.5), color: theme.colors.text }}>Please login to continue</Text>
+                        <Input
+                            icon={<Icon name='mail' size={26} strokeWidth={1.6} />}
+                            placeholder='Enter you email'
+                            autoCapitalize="none"
+                            onChangeText={value => emailRef.current = value}
+                        />
+                        <Input
+                            icon={<Icon name='lock' size={26} strokeWidth={1.6} />}
+                            placeholder='Enter you password'
+                            secureTextEntry
+                            onChangeText={value => passwordRef.current = value}
+                        />
+                        <Text style={styles.forgotPassword}>
+                            Forgot password?
+                        </Text>
+                        {/* button */}
+                        <Button title='Login' loading={loading} onpress={onSubmit} />
+                    </View>
+                    {/* footer */}
+                    <View style={styles.footer}>
+                        <Text style={styles.footerText}>
+                            Don't have an account?
+                        </Text>
+                        <Pressable onPress={() => router.push('signup')} >
+                            <Text style={[styles.footerText, { color: theme.colors.primaryDark, fontWeight: theme.fonts.semibold }]}>Signup</Text>
+                        </Pressable>
+                    </View>
                 </View>
-                {/* footer */}
-                <View style={styles.footer}>
-                    <Text style={styles.footerText}>
-                        Don't have an account?
-                    </Text>
-                    <Pressable onPress={() => router.push('signup')} >
-                        <Text style={[styles.footerText, { color: theme.colors.primaryDark, fontWeight: theme.fonts.semibold }]}>Signup</Text>
-                    </Pressable>
-                </View>
-            </View>
+            </ScrollView>
         </ScreenWrapper>
     )
 }

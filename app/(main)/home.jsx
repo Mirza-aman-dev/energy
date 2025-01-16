@@ -1,18 +1,18 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import ScreenWrapper from '../../components/ScreenWrapper'
-import {wp,hp} from '../../helpers/common'
-import {theme} from '../../constants/theme'
+import { wp, hp } from '../../helpers/common'
+import { theme } from '../../constants/theme'
 import Icon from '../../assets/icons'
 import { useRouter } from 'expo-router'
 import Avatar from '../../components/Avatar'
-import {useAuth} from '../../context/authContext'
+import { useAuth } from '../../context/authContext'
 
 const Home = () => {
 
   const router = useRouter();
 
-  const {user, setAuth} = useAuth();
+  const { user, setAuth } = useAuth();
 
   return (
     <ScreenWrapper bg='white' >
@@ -21,18 +21,18 @@ const Home = () => {
         <View style={styles.header}>
           <Text style={styles.title}>EnergyUp</Text>
           <View style={styles.icons}>
-            <Pressable onPress={()=>router.push('notifications')} >
+            <Pressable onPress={() => router.push('notifications')} >
               <Icon name='heart' size={hp(3.2)} strokeWidth={2} color={theme.colors.text} />
             </Pressable>
-            <Pressable onPress={()=>router.push('newPost')}>
+            <Pressable onPress={() => router.push('newPost')}>
               <Icon name='plus' size={hp(3.2)} strokeWidth={2} color={theme.colors.text} />
             </Pressable>
-            <Pressable onPress={()=>router.push('profile')}>
+            <Pressable onPress={() => router.push('profile')}>
               <Avatar
                 uri={user?.img}
                 size={hp(4.3)}
                 rounded={theme.radius.sm}
-                style={{borderWidth:2}}
+                style={{ borderWidth: 2 }}
               />
             </Pressable>
           </View>
@@ -45,22 +45,22 @@ const Home = () => {
 export default Home
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
+  container: {
+    flex: 1,
   },
-  header:{
-    flexDirection:'row',
-    alignItems:'center',
-    justifyContent:'space-between',
-    marginBottom:10,
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
     marginHorizontal: wp(4),
   },
-  title:{
+  title: {
     color: theme.colors.dark,
     fontSize: hp(3.2),
     fontWeight: theme.fonts.bold,
   },
-  avatarImage:{
+  avatarImage: {
     height: hp(4.3),
     width: hp(4.3),
     borderRadius: theme.radius.sm,
@@ -68,35 +68,35 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.gray,
     borderWidth: 3
   },
-  icons:{
-    flexDirection:'row',
-    alignItems:'center',
-    justifyContent:'center',
-    gap:18,
+  icons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 18,
   },
-  listStyle:{
-    paddingTop:20,
-    paddingHorizontal:wp(4),
+  listStyle: {
+    paddingTop: 20,
+    paddingHorizontal: wp(4),
   },
-  noPosts:{
-    fontSize:hp(2),
-    textAlign:'center',
-    color:theme.colors.text,
+  noPosts: {
+    fontSize: hp(2),
+    textAlign: 'center',
+    color: theme.colors.text,
   },
-  pill:{
-    position:'absolute',
+  pill: {
+    position: 'absolute',
     right: -10,
     top: -4,
-    height:hp(2.2),
-    width:hp(2.2),
-    justifyContent:'center',
-    alignItems:'center',
-    borderRadius:hp(20),
-    backgroundColor:theme.colors.roseLight,
+    height: hp(2.2),
+    width: hp(2.2),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: hp(20),
+    backgroundColor: theme.colors.roseLight,
   },
-  pillText:{
-    color:'white',
-    fontSize:hp(1.2),
-    fontWeight:theme.fonts.bold,
+  pillText: {
+    color: 'white',
+    fontSize: hp(1.2),
+    fontWeight: theme.fonts.bold,
   },
 })
