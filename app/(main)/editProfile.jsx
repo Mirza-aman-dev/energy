@@ -6,7 +6,7 @@ import { theme } from '../../constants/theme'
 import Header from '../../components/Header'
 import { Image } from 'expo-image'
 import { useAuth } from '../../context/authContext'
-import { getUserImageSrc } from '../../services/imageService'
+import { getUserImageSrc, uploadFile } from '../../services/imageService'
 import Icon from '../../assets/icons'
 import Input from '../../components/Input'
 import Button from '../../components/Button'
@@ -65,6 +65,12 @@ const EditProfile = () => {
             return;
         }
         setLoading(true)
+        if(typeof image === 'object'){
+            // upload image
+            let imageRes = await uploadFile('profiles', image?.uri, true);
+            if(imageRes.sucess) userData.image = imageRes.data;
+            else userData.image = null;
+        }
         // update user
         const res = await updateUser(currentUser?.id,userData);
         setLoading(false)
